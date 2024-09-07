@@ -1,7 +1,8 @@
 import psycopg2
 import pandas as pd
-
-def connect_to_database(database_name):
+import os
+from dotenv import load_dotenv
+def connect_to_database(database_name,port_number,database_user,database_password,host_name):
     """
     Connects to a PostgreSQL database and returns a connection object.
 
@@ -19,10 +20,10 @@ def connect_to_database(database_name):
     try:
         conn = psycopg2.connect(
             database= database_name,
-            user = "postgres",
-            password = "admin",
-            host = "localhost",
-            port = 5432
+            user = database_user,
+            password = database_password,
+            host = host_name,
+            port = port_number
         )
         return conn
     except psycopg2.Error as e:
@@ -50,10 +51,14 @@ def execute_query(conn, query):
     except psycopg2.Error as e:
         print(f"Error executing query: {e}")
         return None
-
+load_dotenv()
+DB_HOST = os.getenv("DB_HOST_NAME")
+DB_PORT = os.getenv("DB_PORT_NUMBER")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
 def get_dataFrame_from_database():
-    database_name = "tellcom_db"
-    conn = connect_to_database(database_name)
+    conn = connect_to_database(DB_NAME,DB_PORT,DB_USER,DB_PASSWORD,DB_HOST)
     if conn is not None:
         query = "SELECT * FROM xdr_data"
         xdr_data = execute_query(conn, query)
