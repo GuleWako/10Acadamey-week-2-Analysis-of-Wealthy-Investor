@@ -67,3 +67,43 @@ def get_dataFrame_from_database():
             return xdr_data
         
         conn.close()
+
+def export_eng_exp_sat_to_psql(data):
+    conn = connect_to_database(DB_NAME,DB_PORT,DB_USER,DB_PASSWORD,DB_HOST)
+    cursor = conn.cursor()
+
+    # Create the table (adjust column types as needed)
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS eng_exp_sat (
+        user_id INT PRIMARY KEY,
+        engagement_score FLOAT,
+        experience_score FLOAT,
+        satisfaction_score FLOAT
+    )
+    """
+    cursor.execute(create_table_query)
+
+    # Insert data into the table
+    for index, row in data.iterrows():
+        insert_query = f"""
+        INSERT INTO eng_exp_sat (user_id, engagement_score, experience_score, satisfaction_score)
+        VALUES ({row['MSISDN/Number']}, {row['engagement_score']}, {row['experience_score']}, {row['satisfaction_score']})
+        """
+        cursor.execute(insert_query)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+def fetch_data_from_database():
+    conn = connect_to_database(DB_NAME,DB_PORT,DB_USER,DB_PASSWORD,DB_HOST)
+    cursor = conn.cursor()
+    select_query = "SELECT * FROM eng_exp_sat"
+    cursor.execute(select_query)
+
+    results = cursor.fetchall()
+    if results is not None:
+        df = pd.DataFrame(results, columns=[desc[0] for desc in cursor.description])
+        return df
+    cursor.close()
+    conn.close()
