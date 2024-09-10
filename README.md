@@ -1,8 +1,8 @@
-Project Overview
+## Project Overview
 
 This project investigates user behavior and satisfaction in telecommunication.
 
-Data
+## Data
 
 The project utilizes a telecom dataset containing user information, usage data, and network metrics.
 
