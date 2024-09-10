@@ -65,16 +65,9 @@ def convertByteIntoMegaByte(data):
     # We Have to convert some the data into MB or TB or GB
     megabyte=1*10e+5
     data['Bearer Id']=data['Bearer Id']/megabyte
-    data['Bearer Id']=data['Bearer Id']/megabyte
-    data['Bearer Id']=data['Bearer Id']/megabyte
-
-    data['IMSI']=data['IMSI']/megabyte
     data['IMSI']=data['IMSI']/megabyte
     data['MSISDN/Number']=data['MSISDN/Number']/megabyte
-    data['MSISDN/Number']=data['MSISDN/Number']/megabyte
     data['IMEI']=data['IMEI']/megabyte
-    data['IMEI']=data['IMEI']/megabyte
-
     for column in data.columns:
         if 'Bytes' in column:
             data[column]=data[column]/megabyte
@@ -229,13 +222,14 @@ def compute_dispersion_parameters(data):
 
   return dispersion_params
 
-def plot_dispersion_parameters(dispersion_results):
-    sns.barplot(data=dispersion_results['IMEI'])
-    plt.title('Dispersion Parameters')
-    plt.xlabel('Columns')
-    plt.ylabel('Value')
-    plt.xticks(rotation=45)
-    plt.show()
+def plot_dispersion_parameters(dispersion_results,applications):
+    for application in applications:
+      sns.barplot(data=dispersion_results[application])
+      plt.title('Dispersion Parameters')
+      plt.xlabel(application)
+      plt.ylabel('Value')
+      plt.xticks(rotation=45)
+      plt.show()
 
 def correlationBetweenApplication(data):
         agg_xdr_data = pd.DataFrame(data)
@@ -330,7 +324,7 @@ def find_top_bottom_frequent(data, column_name, n=10):
 
     return top_n, bottom_n, most_frequent
 
-def analyze_handset_metrics(data,avg_throughput):
+def analyze_handset_throughput_metrics(data,avg_throughput):
   """
   Analyzes the distribution of average throughput  view per handset type.
 
@@ -346,7 +340,7 @@ def analyze_handset_metrics(data,avg_throughput):
   print(avg_throughput_DL_by_handset.to_markdown())
 
 
-def analyze_handset_metrics(data,tcp_retranzmission):
+def analyze_handset_retrasmission_metrics(data,tcp_retransmission):
   """
   Analyzes the distribution of average TCP retransmission view per handset type.
 
@@ -354,7 +348,7 @@ def analyze_handset_metrics(data,tcp_retranzmission):
     data The input DataFrame containing handset data.
   """
 
-  avg_retransmission_by_handset = data.groupby('Handset Type')[tcp_retranzmission].mean()
+  avg_retransmission_by_handset = data.groupby('Handset Type')[tcp_retransmission].mean()
 
 
   print("\nAverage TCP Retransmission Count per Handset Type:\n")
