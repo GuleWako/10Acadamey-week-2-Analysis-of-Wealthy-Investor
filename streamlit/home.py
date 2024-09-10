@@ -8,8 +8,10 @@ import seaborn as sns
 import os
 os.chdir('..')
 from src.dbconnection import get_dataFrame_from_database
-xdr_data = get_dataFrame_from_database()
 
+# xdr_data = get_dataFrame_from_database()
+# xdr_data_from_csv
+xdr_data= pd.read_csv('docs/Week2_challenge_data_source(CSV).csv')
 st.set_page_config(page_title="Dashboard")
 # Set page title
 st.title("Telecom Data Analysis")
@@ -18,11 +20,11 @@ st.markdown("##")
 
 st.sidebar.header('Telecommunication')
 st.sidebar.write("Telecom dataset analysized as follow:")
-st.sidebar.button('Exploratory Data Analysis (EDA)')
-st.sidebar.button('User Over view Analysis')
-st.sidebar.button('User Engagement Analysis')
-st.sidebar.button('User Experience Analysis')
-st.sidebar.button('User Satisfaction Analysis')
+st.sidebar.success('Exploratory Data Analysis (EDA)')
+st.sidebar.success('User Over view Analysis')
+st.sidebar.success('User Engagement Analysis')
+st.sidebar.success('User Experience Analysis')
+st.sidebar.success('User Satisfaction Analysis')
 # Show first few rows of the dataset
 st.success("Initial Telecom Dataset")
 st.write(xdr_data)
