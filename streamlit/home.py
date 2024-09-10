@@ -7,7 +7,7 @@ import seaborn as sns
 # from streamlit_option_menu import option_menu
 import os
 os.chdir('..')
-from src.dbconnection import get_dataFrame_from_database
+# from src.dbconnection import get_dataFrame_from_database
 
 # xdr_data = get_dataFrame_from_database()
 # xdr_data_from_csv
