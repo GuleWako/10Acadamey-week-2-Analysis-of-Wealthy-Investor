@@ -7,11 +7,8 @@ import seaborn as sns
 # from streamlit_option_menu import option_menu
 import os
 os.chdir('..')
-# from src.dbconnection import get_dataFrame_from_database
-
-# xdr_data = get_dataFrame_from_database()
-# xdr_data_from_csv
-xdr_data= pd.read_csv('docs/Week2_challenge_data_source(CSV).csv')
+from src.dbconnection import get_dataFrame_from_database
+xdr_data = get_dataFrame_from_database()
 st.set_page_config(page_title="Dashboard")
 # Set page title
 st.title("Telecom Data Analysis")
